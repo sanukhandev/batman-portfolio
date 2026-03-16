@@ -1,0 +1,103 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { MotionValue } from "framer-motion";
+
+export default function ScrollyCanvas({
+  scrollProgress,
+}: {
+  scrollProgress: MotionValue<number>;
+}) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [images, setImages] = useState<HTMLImageElement[]>([]);
+  const frameCount = 120; // 0 to 119
+
+  useEffect(() => {
+    // Preload images
+    const loadedImages: HTMLImageElement[] = [];
+    let loadedCount = 0;
+
+    for (let i = 0; i < frameCount; i++) {
+      const img = new Image();
+      const frameIndex = i.toString().padStart(3, "0");
+      img.src = `/sequence/frame_${frameIndex}_delay-0.066s.webp`;
+
+      img.onload = () => {
+        loadedCount++;
+        if (loadedCount === frameCount) {
+          setImages(loadedImages);
+        }
+      };
+      
+      loadedImages[i] = img;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (images.length === 0 || !canvasRef.current) return;
+
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const renderFrame = (index: number) => {
+      if (!images[index] || !ctx) return;
+
+      const img = images[index];
+      const renderRatio = window.devicePixelRatio || 1;
+      
+      const canvasWidth = window.innerWidth;
+      const canvasHeight = window.innerHeight;
+      
+      canvas.width = canvasWidth * renderRatio;
+      canvas.height = canvasHeight * renderRatio;
+      
+      const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
+      const drawWidth = img.width * scale;
+      const drawHeight = img.height * scale;
+      
+      const x = (canvas.width - drawWidth) / 2;
+      const y = (canvas.height - drawHeight) / 2;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#121212";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, x, y, drawWidth, drawHeight);
+    };
+
+    renderFrame(0);
+
+    const handleResize = () => {
+      const latest = scrollProgress.get();
+      const frameIndex = Math.min(frameCount - 1, Math.max(0, Math.floor(latest * frameCount)));
+      renderFrame(frameIndex);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    const unsubscribe = scrollProgress.on("change", (latest) => {
+      const frameIndex = Math.min(frameCount - 1, Math.floor(latest * frameCount));
+      requestAnimationFrame(() => renderFrame(frameIndex));
+    });
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      unsubscribe();
+    };
+  }, [images, scrollProgress]);
+
+  return (
+    <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#121212]">
+      <canvas
+        ref={canvasRef}
+        className="w-full h-full block"
+        style={{ width: "100%", height: "100%" }}
+      />
+      {images.length < frameCount && (
+        <div className="absolute inset-0 flex items-center justify-center text-white/50 bg-[#121212]">
+          Loading Experience...
+        </div>
+      )}
+    </div>
+  );
+}
