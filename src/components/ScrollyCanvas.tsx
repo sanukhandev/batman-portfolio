@@ -2,6 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { MotionValue } from "framer-motion";
+import { getSequenceFramePath, sequenceConfig } from "@/lib/sequenceConfig";
+
+type SequenceLoadState = "loading" | "ready" | "error";
 
 export default function ScrollyCanvas({
   scrollProgress,
@@ -10,28 +13,56 @@ export default function ScrollyCanvas({
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [images, setImages] = useState<HTMLImageElement[]>([]);
-  const frameCount = 120; // 0 to 119
+  const [loadState, setLoadState] = useState<SequenceLoadState>("loading");
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const frameCount = sequenceConfig.frameCount;
 
   useEffect(() => {
-    // Preload images
+    let cancelled = false;
+    let hasFailed = false;
     const loadedImages: HTMLImageElement[] = [];
     let loadedCount = 0;
+    setLoadState("loading");
+    setLoadError(null);
+    setImages([]);
 
     for (let i = 0; i < frameCount; i++) {
       const img = new Image();
-      const frameIndex = i.toString().padStart(3, "0");
-      img.src = `/sequence/frame_${frameIndex}_delay-0.066s.webp`;
+      const src = getSequenceFramePath(i);
 
       img.onload = () => {
+        if (cancelled || hasFailed) {
+          return;
+        }
+
         loadedCount++;
+        loadedImages[i] = img;
+
         if (loadedCount === frameCount) {
           setImages(loadedImages);
+          setLoadState("ready");
         }
       };
-      
-      loadedImages[i] = img;
+
+      img.onerror = () => {
+        if (cancelled || hasFailed) {
+          return;
+        }
+
+        hasFailed = true;
+
+        console.error(`Failed to load sequence frame: ${src}`);
+        setLoadError(src);
+        setLoadState("error");
+      };
+
+      img.src = src;
     }
-  }, []);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [frameCount]);
 
   useEffect(() => {
     if (images.length === 0 || !canvasRef.current) return;
@@ -84,7 +115,7 @@ export default function ScrollyCanvas({
       window.removeEventListener("resize", handleResize);
       unsubscribe();
     };
-  }, [images, scrollProgress]);
+  }, [frameCount, images, scrollProgress]);
 
   return (
     <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#121212]">
@@ -93,9 +124,23 @@ export default function ScrollyCanvas({
         className="w-full h-full block"
         style={{ width: "100%", height: "100%" }}
       />
-      {images.length < frameCount && (
+      {loadState === "loading" && (
         <div className="absolute inset-0 flex items-center justify-center text-white/50 bg-[#121212]">
           Loading Experience...
+        </div>
+      )}
+      {loadState === "error" && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[#121212]/95 px-6 text-center">
+          <p className="text-lg uppercase tracking-[0.2em] text-[#e0c050]">
+            Unable to load the cinematic sequence
+          </p>
+          <p className="max-w-2xl text-sm text-white/60">
+            Check the sequence config and asset filenames. The first missing or invalid
+            frame was:
+          </p>
+          <code className="rounded border border-white/10 bg-black/30 px-4 py-2 text-xs text-white/80">
+            {loadError}
+          </code>
         </div>
       )}
     </div>
