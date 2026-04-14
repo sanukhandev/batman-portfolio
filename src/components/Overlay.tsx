@@ -56,6 +56,8 @@ export default function Overlay({ scrollProgress }: { scrollProgress: MotionValu
 
   // Dark overlay that thickens as we transition out of images to purely text/drama
   const backgroundOpacity = useTransform(scrollProgress, [0, 0.8, 1], [0.1, 0.6, 0.85]);
+  const subtextOpacity = useTransform(scrollProgress, [0.84, 0.92, 1], [0, 0.9, 1]);
+  const ctaOpacity = useTransform(scrollProgress, [0.9, 0.96, 1], [0, 0.85, 1]);
 
   return (
     <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-10 font-[family-name:var(--font-bebas)]">
@@ -152,7 +154,7 @@ export default function Overlay({ scrollProgress }: { scrollProgress: MotionValu
             textShadow: textShadow4,
             color: color4
           }}
-          className="absolute bottom-0 inset-x-0 text-center pb-12 md:pb-20 px-4 flex flex-col items-center justify-end origin-bottom"
+          className="absolute bottom-0 inset-x-0 text-center pb-32 md:pb-44 px-4 flex flex-col items-center justify-end origin-bottom"
         >
           <h1 
             className="text-7xl md:text-[10rem] lg:text-[12rem] font-bold tracking-widest uppercase leading-none drop-shadow-2xl"
@@ -165,7 +167,7 @@ export default function Overlay({ scrollProgress }: { scrollProgress: MotionValu
           </h1>
           <motion.p
             style={{ 
-              opacity: useTransform(scrollProgress, [0.8, 1], [0, 1]),
+              opacity: subtextOpacity,
             }}
             className="text-xl md:text-3xl font-light tracking-[0.2em] text-[#00FF41] uppercase mt-4 drop-shadow-lg"
           >
@@ -176,20 +178,36 @@ export default function Overlay({ scrollProgress }: { scrollProgress: MotionValu
         {/* Coffee CTA Button */}
         <motion.div
           style={{ 
-            opacity: useTransform(scrollProgress, [0.92, 1], [0, 1]),
+            opacity: ctaOpacity,
           }}
           className="absolute bottom-0 inset-x-0 text-center pb-8 md:pb-12 px-4 flex flex-col items-center justify-end pointer-events-auto"
         >
-          <motion.a
-            href={scrollNarrative.finalReveal.ctaUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
-            className="inline-block px-8 py-3 md:px-10 md:py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold tracking-wider uppercase rounded-lg hover:shadow-lg hover:shadow-green-500/50 transition-all duration-300 text-sm md:text-base pointer-events-auto"
-          >
-            ☕ {scrollNarrative.finalReveal.ctaText}
-          </motion.a>
+          <div className="flex flex-col md:flex-row gap-3 md:gap-4 items-center justify-center">
+            <motion.a
+              href="/about"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center gap-2 px-8 py-3 md:px-10 md:py-4 border-2 border-[#00FF41] text-[#00FF41] font-bold tracking-wider uppercase rounded-lg hover:bg-[#00FF41]/10 transition-all duration-300 text-sm md:text-base pointer-events-auto"
+            >
+              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>About Me</span>
+            </motion.a>
+            <motion.a
+              href={scrollNarrative.finalReveal.ctaUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center gap-2 px-8 py-3 md:px-10 md:py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold tracking-wider uppercase rounded-lg hover:shadow-lg hover:shadow-green-500/50 transition-all duration-300 text-sm md:text-base pointer-events-auto"
+            >
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 8h11a3 3 0 010 6h-1m-10 0h8a2 2 0 002-2V8H6v4a2 2 0 002 2zm0 0v2a2 2 0 002 2h6a2 2 0 002-2v-2M6 8V6a2 2 0 012-2h8a2 2 0 012 2v2" />
+              </svg>
+              <span>{scrollNarrative.finalReveal.ctaText}</span>
+            </motion.a>
+          </div>
         </motion.div>
 
       </div>

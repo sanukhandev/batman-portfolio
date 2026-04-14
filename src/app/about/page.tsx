@@ -234,7 +234,9 @@ export default function About() {
               variants={itemVariants}
               className="flex gap-4 bg-white/5 border border-white/10 rounded-lg p-4 hover:border-[#00FF41] transition-colors"
             >
-              <div className="text-3xl flex-shrink-0">{cert.icon}</div>
+              <div className="h-10 min-w-10 rounded-md border border-[#00FF41]/40 bg-[#00FF41]/10 text-[#00FF41] text-[11px] tracking-wider font-bold flex items-center justify-center px-2 flex-shrink-0">
+                {cert.icon}
+              </div>
               <div>
                 <p className="font-bold tracking-wider">{cert.title}</p>
                 <p className="text-white/60 text-sm">{cert.issuer}</p>
@@ -264,18 +266,24 @@ export default function About() {
             variants={itemVariants}
             href="/resume.pdf"
             download
-            className="inline-block px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold tracking-wider uppercase rounded-lg hover:shadow-lg hover:shadow-green-500/50 transition-all"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold tracking-wider uppercase rounded-lg hover:shadow-lg hover:shadow-green-500/50 transition-all"
           >
-            📥 Download Resume
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v12m0 0l4-4m-4 4l-4-4M4 17v1a3 3 0 003 3h10a3 3 0 003-3v-1" />
+            </svg>
+            <span>Download Resume</span>
           </motion.a>
           <motion.a
             variants={itemVariants}
             href={profileData.contact.kofi}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-8 py-4 border-2 border-[#00FF41] text-[#00FF41] font-bold tracking-wider uppercase rounded-lg hover:bg-[#00FF41]/10 transition-all"
+            className="inline-flex items-center gap-2 px-8 py-4 border-2 border-[#00FF41] text-[#00FF41] font-bold tracking-wider uppercase rounded-lg hover:bg-[#00FF41]/10 transition-all"
           >
-            ☕ Buy Me a Coffee
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 8h11a3 3 0 010 6h-1m-10 0h8a2 2 0 002-2V8H6v4a2 2 0 002 2zm0 0v2a2 2 0 002 2h6a2 2 0 002-2v-2M6 8V6a2 2 0 012-2h8a2 2 0 012 2v2" />
+            </svg>
+            <span>Buy Me a Coffee</span>
           </motion.a>
         </motion.div>
       </motion.section>
