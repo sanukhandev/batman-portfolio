@@ -11,24 +11,24 @@ export default function Overlay({ scrollProgress }: { scrollProgress: MotionValu
   // Act 1 line: origin story
   // left aligned near upper-left area
   // fade in with slight upward motion and low-opacity smoky entrance
-  const opacity1 = useTransform(scrollProgress, [0.08, 0.18, 0.3], [0, 1, 0]);
-  const y1 = useTransform(scrollProgress, [0.08, 0.18, 0.3], [50, 0, -50]);
-  const filter1 = useTransform(scrollProgress, [0.08, 0.18, 0.26], ["blur(10px)", "blur(0px)", "blur(10px)"]);
+  const opacity1 = useTransform(scrollProgress, [0.06, 0.12, 0.34, 0.4], [0, 1, 1, 0]);
+  const y1 = useTransform(scrollProgress, [0.06, 0.12, 0.34, 0.4], [28, 0, 0, -20]);
+  const filter1 = useTransform(scrollProgress, [0.06, 0.12, 0.36], ["blur(8px)", "blur(0px)", "blur(8px)"]);
 
   // Line 2: "They never look up."
   // right aligned near upper-right area
   // slide in from right with subtle blur-to-sharp transition
-  const opacity2 = useTransform(scrollProgress, [0.32, 0.42, 0.58], [0, 1, 0]);
-  const x2 = useTransform(scrollProgress, [0.32, 0.42, 0.58], [100, 0, -50]);
-  const filter2 = useTransform(scrollProgress, [0.32, 0.42, 0.52], ["blur(12px)", "blur(0px)", "blur(12px)"]);
+  const opacity2 = useTransform(scrollProgress, [0.26, 0.34, 0.56, 0.62], [0, 1, 1, 0]);
+  const x2 = useTransform(scrollProgress, [0.26, 0.34, 0.56, 0.62], [56, 0, 0, -28]);
+  const filter2 = useTransform(scrollProgress, [0.26, 0.34, 0.58], ["blur(10px)", "blur(0px)", "blur(10px)"]);
 
   // Line 3: "But fear changes everything."
   // center aligned in the middle
   // scale in gently at center with stronger presence and faint glow
-  const opacity3 = useTransform(scrollProgress, [0.62, 0.72, 0.82, 0.9], [0, 1, 1, 0]);
-  const scale3 = useTransform(scrollProgress, [0.62, 0.75, 0.9], [0.85, 1, 1.08]);
-  const filter3 = useTransform(scrollProgress, [0.62, 0.72], ["blur(8px)", "blur(0px)"]);
-  const glow3 = useTransform(scrollProgress, [0.62, 0.75, 0.9], [
+  const opacity3 = useTransform(scrollProgress, [0.52, 0.6, 0.8, 0.86], [0, 1, 1, 0]);
+  const scale3 = useTransform(scrollProgress, [0.52, 0.66, 0.86], [0.94, 1, 1.04]);
+  const filter3 = useTransform(scrollProgress, [0.52, 0.6], ["blur(8px)", "blur(0px)"]);
+  const glow3 = useTransform(scrollProgress, [0.52, 0.66, 0.86], [
     "0px 0px 0px rgba(255,255,255,0)", 
     "0px 0px 20px rgba(255,255,255,0.3)", 
     "0px 0px 0px rgba(255,255,255,0)"
@@ -37,9 +37,9 @@ export default function Overlay({ scrollProgress }: { scrollProgress: MotionValu
   // Act 3 line: final identity reveal
   // center aligned near bottom center
   // fade + scale up, subtle text glow
-  const opacity4 = useTransform(scrollProgress, [0.84, 0.93, 1], [0, 1, 1]);
-  const scale4 = useTransform(scrollProgress, [0.84, 0.93, 1], [0.82, 1, 1.03]);
-  const filter4 = useTransform(scrollProgress, [0.84, 0.92], ["blur(20px)", "blur(0px)"]);
+  const opacity4 = useTransform(scrollProgress, [0.78, 0.86, 1], [0, 1, 1]);
+  const scale4 = useTransform(scrollProgress, [0.78, 0.9, 1], [0.88, 1, 1.02]);
+  const filter4 = useTransform(scrollProgress, [0.78, 0.86], ["blur(18px)", "blur(0px)"]);
   
   // Green glow for Sanu Khan branding
   const textShadow4 = useTransform(scrollProgress, [0.85, 0.92, 1], [
@@ -54,13 +54,13 @@ export default function Overlay({ scrollProgress }: { scrollProgress: MotionValu
   const logoScale = useTransform(scrollProgress, [0.95, 1], [0.8, 1]);
 
   // Act 2 proof-strip for impact metrics
-  const proofOpacity = useTransform(scrollProgress, [0.3, 0.4, 0.62, 0.72], [0, 1, 1, 0]);
-  const proofScale = useTransform(scrollProgress, [0.3, 0.5, 0.72], [0.96, 1, 1.03]);
+  const proofOpacity = useTransform(scrollProgress, [0.24, 0.3, 0.66, 0.72], [0, 1, 1, 0]);
+  const proofScale = useTransform(scrollProgress, [0.24, 0.44, 0.72], [0.98, 1, 1.02]);
 
   // Dark overlay that thickens as we transition out of images to purely text/drama
   const backgroundOpacity = useTransform(scrollProgress, [0, 0.75, 1], [0.1, 0.58, 0.85]);
-  const subtextOpacity = useTransform(scrollProgress, [0.9, 0.96, 1], [0, 0.92, 1]);
-  const ctaOpacity = useTransform(scrollProgress, [0.93, 0.98, 1], [0, 0.9, 1]);
+  const subtextOpacity = useTransform(scrollProgress, [0.84, 0.92, 1], [0, 0.92, 1]);
+  const ctaOpacity = useTransform(scrollProgress, [0.88, 0.96, 1], [0, 0.9, 1]);
 
   return (
     <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-10 font-[family-name:var(--font-bebas)]">
