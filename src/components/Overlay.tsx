@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, MotionValue, useTransform } from "framer-motion";
+import { scrollNarrative } from "@/lib/profileData";
 
 export default function Overlay({ scrollProgress }: { scrollProgress: MotionValue<number> }) {
   // Title: Fades out immediately as user starts scrolling
@@ -40,13 +41,13 @@ export default function Overlay({ scrollProgress }: { scrollProgress: MotionValu
   const scale4 = useTransform(scrollProgress, [0.75, 0.9, 1], [0.8, 1, 1.05]);
   const filter4 = useTransform(scrollProgress, [0.75, 0.85], ["blur(20px)", "blur(0px)"]);
   
-  // Batman yellow glow
+  // Green glow for Sanu Khan branding
   const textShadow4 = useTransform(scrollProgress, [0.85, 0.92, 1], [
-    "0px 0px 0px rgba(200, 160, 40, 0)", 
-    "0px 0px 40px rgba(200, 160, 40, 0.6)", 
-    "0px 0px 80px rgba(200, 160, 40, 0.8)"
+    "0px 0px 0px rgba(0, 255, 65, 0)", 
+    "0px 0px 40px rgba(0, 255, 65, 0.6)", 
+    "0px 0px 80px rgba(0, 255, 65, 0.8)"
   ]);
-  const color4 = useTransform(scrollProgress, [0.85, 0.92], ["#ffffff", "#e0c050"]); 
+  const color4 = useTransform(scrollProgress, [0.85, 0.92], ["#ffffff", "#00FF41"]); 
   
   // Bat Logo: Appears after "I AM BATMAN" reaches peak
   const logoOpacity = useTransform(scrollProgress, [0.95, 1], [0, 1]);
@@ -89,7 +90,7 @@ export default function Overlay({ scrollProgress }: { scrollProgress: MotionValu
           className="absolute left-8 md:left-24 top-1/4 max-w-2xl"
         >
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-normal tracking-[0.1em] text-[#e0e0e0] uppercase leading-tight drop-shadow-lg">
-            Criminals think the night belongs to them.
+            Started with small-scale freelance work in 2011.
           </h1>
         </motion.div>
 
@@ -99,7 +100,7 @@ export default function Overlay({ scrollProgress }: { scrollProgress: MotionValu
           className="absolute right-8 md:right-24 top-1/3 max-w-2xl text-right"
         >
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-normal tracking-[0.1em] text-[#e0e0e0] uppercase leading-tight drop-shadow-lg">
-            They never look up.
+            Built solutions for 50+ clients across continents.
           </h2>
         </motion.div>
 
@@ -109,7 +110,7 @@ export default function Overlay({ scrollProgress }: { scrollProgress: MotionValu
           className="absolute inset-x-0 top-[45%] -translate-y-1/2 text-center px-4"
         >
           <h3 className="text-5xl md:text-6xl lg:text-7xl font-normal tracking-[0.15em] text-white uppercase origin-center drop-shadow-2xl">
-            But fear changes everything.
+            Now architecting enterprise-scale platforms.
           </h3>
         </motion.div>
 
@@ -119,41 +120,30 @@ export default function Overlay({ scrollProgress }: { scrollProgress: MotionValu
           className="absolute inset-x-0 top-1/2 -translate-y-1/2 text-center"
         >
           <p className="text-xl md:text-2xl font-light tracking-[0.3em] text-white/50 uppercase mb-4">
-            A Cinematic Experience
+            A Creative Journey
           </p>
           <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-widest text-white uppercase drop-shadow-2xl">
-            The Dark Knight
+            Architect of the Web
           </h1>
           <p className="mt-8 text-sm md:text-base font-light tracking-widest text-white/40 uppercase animate-pulse">
             Scroll to begin
           </p>
         </motion.div>
 
-        {/* BATMAN LOGO OUTLINE ANIMATION */}
+        {/* SANU KHAN INITIALS BADGE */}
         <motion.div
           style={{ 
-            opacity: logoOpacity, 
+            opacity: useTransform(scrollProgress, [0.92, 1], [0, 0.8]),
             scale: logoScale
           }}
           className="absolute inset-x-0 top-1/4 -translate-y-1/2 flex justify-center items-center pointer-events-none"
         >
-          <svg 
-            width="726" 
-            height="252" 
-            viewBox="0 0 726 252.17" 
-            className="w-64 h-auto md:w-[600px] text-[#e0c050] drop-shadow-[0_0_15px_rgba(224,192,80,0.5)]"
-          >
-            <motion.path 
-              d="M483.92 0S481.38 24.71 466 40.11c-11.74 11.74-24.09 12.66-40.26 15.07-9.42 1.41-29.7 3.77-34.81-.79-2.37-2.11-3-21-3.22-27.62-.21-6.92-1.36-16.52-2.82-18-.75 3.06-2.49 11.53-3.09 13.61S378.49 34.3 378 36a85.13 85.13 0 0 0-30.09 0c-.46-1.67-3.17-11.48-3.77-13.56s-2.34-10.55-3.09-13.61c-1.45 1.45-2.61 11.05-2.82 18-.21 6.67-.84 25.51-3.22 27.62-5.11 4.56-25.38 2.2-34.8.79-16.16-2.47-28.51-3.39-40.21-15.13C244.57 24.71 242 0 242 0H0s69.52 22.74 97.52 68.59c16.56 27.11 14.14 58.49 9.92 74.73C170 140 221.46 140 273 158.57c69.23 24.93 83.2 76.19 90 93.6 6.77-17.41 20.75-68.67 90-93.6 51.54-18.56 103-18.59 165.56-15.25-4.21-16.24-6.63-47.62 9.93-74.73C656.43 22.74 726 0 726 0z" 
-              fill="transparent" 
-              stroke="currentColor" 
-              strokeWidth="4" 
-              style={{ pathLength: logoPathLength }}
-            />
-          </svg>
+          <div className="w-48 h-48 md:w-80 md:h-80 border-2 border-[#00FF41] rounded-full flex items-center justify-center">
+            <span className="text-6xl md:text-8xl font-bold text-[#00FF41]">SK</span>
+          </div>
         </motion.div>
 
-        {/* Line 4 - I AM BATMAN */}
+        {/* Line 4 - Final Reveal */}
         <motion.div
           style={{ 
             opacity: opacity4, 
@@ -162,17 +152,44 @@ export default function Overlay({ scrollProgress }: { scrollProgress: MotionValu
             textShadow: textShadow4,
             color: color4
           }}
-          className="absolute bottom-0 inset-x-0 text-center pb-24 md:pb-32 px-4 flex flex-col items-center justify-end origin-bottom"
+          className="absolute bottom-0 inset-x-0 text-center pb-12 md:pb-20 px-4 flex flex-col items-center justify-end origin-bottom"
         >
           <h1 
             className="text-7xl md:text-[10rem] lg:text-[12rem] font-bold tracking-widest uppercase leading-none drop-shadow-2xl"
             style={{ 
-                WebkitTextStroke: "2px rgba(255,255,255,0.1)", // Subtle outline to force readability against bright frames
-                textShadow: "0px 4px 20px rgba(0,0,0,0.8)" // Dark drop shadow behind the glow for contrast
+                WebkitTextStroke: "2px rgba(255,255,255,0.1)",
+                textShadow: "0px 4px 20px rgba(0,0,0,0.8)"
             }}
           >
-            I AM BATMAN
+            I'M SANU KHAN
           </h1>
+          <motion.p
+            style={{ 
+              opacity: useTransform(scrollProgress, [0.8, 1], [0, 1]),
+            }}
+            className="text-xl md:text-3xl font-light tracking-[0.2em] text-[#00FF41] uppercase mt-4 drop-shadow-lg"
+          >
+            Extended Full Stack Developer
+          </motion.p>
+        </motion.div>
+
+        {/* Coffee CTA Button */}
+        <motion.div
+          style={{ 
+            opacity: useTransform(scrollProgress, [0.92, 1], [0, 1]),
+          }}
+          className="absolute bottom-0 inset-x-0 text-center pb-8 md:pb-12 px-4 flex flex-col items-center justify-end pointer-events-auto"
+        >
+          <motion.a
+            href={scrollNarrative.finalReveal.ctaUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
+            className="inline-block px-8 py-3 md:px-10 md:py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold tracking-wider uppercase rounded-lg hover:shadow-lg hover:shadow-green-500/50 transition-all duration-300 text-sm md:text-base pointer-events-auto"
+          >
+            ☕ {scrollNarrative.finalReveal.ctaText}
+          </motion.a>
         </motion.div>
 
       </div>

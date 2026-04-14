@@ -131,7 +131,7 @@ export default function ScrollyCanvas({
       )}
       {loadState === "error" && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[#121212]/95 px-6 text-center">
-          <p className="text-lg uppercase tracking-[0.2em] text-[#e0c050]">
+          <p className="text-lg uppercase tracking-[0.2em] text-[#00FF41]">
             Unable to load the cinematic sequence
           </p>
           <p className="max-w-2xl text-sm text-white/60">
