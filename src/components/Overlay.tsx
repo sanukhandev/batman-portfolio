@@ -1,45 +1,45 @@
 "use client";
 
 import { motion, MotionValue, useTransform } from "framer-motion";
-import { scrollNarrative } from "@/lib/profileData";
+import { profileData, scrollNarrative } from "@/lib/profileData";
 
 export default function Overlay({ scrollProgress }: { scrollProgress: MotionValue<number> }) {
   // Title: Fades out immediately as user starts scrolling
-  const titleOpacity = useTransform(scrollProgress, [0, 0.05], [1, 0]);
-  const titleScale = useTransform(scrollProgress, [0, 0.05], [1, 0.95]);
+  const titleOpacity = useTransform(scrollProgress, [0, 0.06], [1, 0]);
+  const titleScale = useTransform(scrollProgress, [0, 0.06], [1, 0.95]);
 
-  // Line 1: "Criminals think the night belongs to them."
+  // Act 1 line: origin story
   // left aligned near upper-left area
   // fade in with slight upward motion and low-opacity smoky entrance
-  const opacity1 = useTransform(scrollProgress, [0.05, 0.15, 0.25], [0, 1, 0]);
-  const y1 = useTransform(scrollProgress, [0.05, 0.15, 0.25], [50, 0, -50]);
-  const filter1 = useTransform(scrollProgress, [0.05, 0.15, 0.2], ["blur(10px)", "blur(0px)", "blur(10px)"]);
+  const opacity1 = useTransform(scrollProgress, [0.08, 0.18, 0.3], [0, 1, 0]);
+  const y1 = useTransform(scrollProgress, [0.08, 0.18, 0.3], [50, 0, -50]);
+  const filter1 = useTransform(scrollProgress, [0.08, 0.18, 0.26], ["blur(10px)", "blur(0px)", "blur(10px)"]);
 
   // Line 2: "They never look up."
   // right aligned near upper-right area
   // slide in from right with subtle blur-to-sharp transition
-  const opacity2 = useTransform(scrollProgress, [0.2, 0.35, 0.5], [0, 1, 0]);
-  const x2 = useTransform(scrollProgress, [0.2, 0.35, 0.5], [100, 0, -50]);
-  const filter2 = useTransform(scrollProgress, [0.2, 0.35, 0.45], ["blur(12px)", "blur(0px)", "blur(12px)"]);
+  const opacity2 = useTransform(scrollProgress, [0.32, 0.42, 0.58], [0, 1, 0]);
+  const x2 = useTransform(scrollProgress, [0.32, 0.42, 0.58], [100, 0, -50]);
+  const filter2 = useTransform(scrollProgress, [0.32, 0.42, 0.52], ["blur(12px)", "blur(0px)", "blur(12px)"]);
 
   // Line 3: "But fear changes everything."
   // center aligned in the middle
   // scale in gently at center with stronger presence and faint glow
-  const opacity3 = useTransform(scrollProgress, [0.45, 0.55, 0.65, 0.75], [0, 1, 1, 0]);
-  const scale3 = useTransform(scrollProgress, [0.45, 0.6, 0.75], [0.85, 1, 1.1]);
-  const filter3 = useTransform(scrollProgress, [0.45, 0.55], ["blur(8px)", "blur(0px)"]);
-  const glow3 = useTransform(scrollProgress, [0.45, 0.6, 0.75], [
+  const opacity3 = useTransform(scrollProgress, [0.62, 0.72, 0.82, 0.9], [0, 1, 1, 0]);
+  const scale3 = useTransform(scrollProgress, [0.62, 0.75, 0.9], [0.85, 1, 1.08]);
+  const filter3 = useTransform(scrollProgress, [0.62, 0.72], ["blur(8px)", "blur(0px)"]);
+  const glow3 = useTransform(scrollProgress, [0.62, 0.75, 0.9], [
     "0px 0px 0px rgba(255,255,255,0)", 
     "0px 0px 20px rgba(255,255,255,0.3)", 
     "0px 0px 0px rgba(255,255,255,0)"
   ]);
 
-  // Line 4: "I AM BATMAN"
+  // Act 3 line: final identity reveal
   // center aligned near bottom center
   // fade + scale up, subtle text glow
-  const opacity4 = useTransform(scrollProgress, [0.75, 0.9, 1], [0, 1, 1]);
-  const scale4 = useTransform(scrollProgress, [0.75, 0.9, 1], [0.8, 1, 1.05]);
-  const filter4 = useTransform(scrollProgress, [0.75, 0.85], ["blur(20px)", "blur(0px)"]);
+  const opacity4 = useTransform(scrollProgress, [0.84, 0.93, 1], [0, 1, 1]);
+  const scale4 = useTransform(scrollProgress, [0.84, 0.93, 1], [0.82, 1, 1.03]);
+  const filter4 = useTransform(scrollProgress, [0.84, 0.92], ["blur(20px)", "blur(0px)"]);
   
   // Green glow for Sanu Khan branding
   const textShadow4 = useTransform(scrollProgress, [0.85, 0.92, 1], [
@@ -49,15 +49,18 @@ export default function Overlay({ scrollProgress }: { scrollProgress: MotionValu
   ]);
   const color4 = useTransform(scrollProgress, [0.85, 0.92], ["#ffffff", "#00FF41"]); 
   
-  // Bat Logo: Appears after "I AM BATMAN" reaches peak
+  // Initials badge appears at the final stage
   const logoOpacity = useTransform(scrollProgress, [0.95, 1], [0, 1]);
   const logoScale = useTransform(scrollProgress, [0.95, 1], [0.8, 1]);
-  const logoPathLength = useTransform(scrollProgress, [0.92, 1], [0, 1]);
+
+  // Act 2 proof-strip for impact metrics
+  const proofOpacity = useTransform(scrollProgress, [0.3, 0.4, 0.62, 0.72], [0, 1, 1, 0]);
+  const proofScale = useTransform(scrollProgress, [0.3, 0.5, 0.72], [0.96, 1, 1.03]);
 
   // Dark overlay that thickens as we transition out of images to purely text/drama
-  const backgroundOpacity = useTransform(scrollProgress, [0, 0.8, 1], [0.1, 0.6, 0.85]);
-  const subtextOpacity = useTransform(scrollProgress, [0.84, 0.92, 1], [0, 0.9, 1]);
-  const ctaOpacity = useTransform(scrollProgress, [0.9, 0.96, 1], [0, 0.85, 1]);
+  const backgroundOpacity = useTransform(scrollProgress, [0, 0.75, 1], [0.1, 0.58, 0.85]);
+  const subtextOpacity = useTransform(scrollProgress, [0.9, 0.96, 1], [0, 0.92, 1]);
+  const ctaOpacity = useTransform(scrollProgress, [0.93, 0.98, 1], [0, 0.9, 1]);
 
   return (
     <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-10 font-[family-name:var(--font-bebas)]">
@@ -89,30 +92,51 @@ export default function Overlay({ scrollProgress }: { scrollProgress: MotionValu
         {/* Line 1 */}
         <motion.div
           style={{ opacity: opacity1, y: y1, filter: filter1 }}
-          className="absolute left-8 md:left-24 top-1/4 max-w-2xl"
+          className="absolute left-8 md:left-24 top-[26%] max-w-2xl"
         >
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-normal tracking-[0.1em] text-[#e0e0e0] uppercase leading-tight drop-shadow-lg">
-            Started with small-scale freelance work in 2011.
+            Started small. Built consistently.
           </h1>
+        </motion.div>
+
+        {/* Act 2: Proof strip */}
+        <motion.div
+          style={{ opacity: proofOpacity, scale: proofScale }}
+          className="absolute inset-x-0 top-[54%] -translate-y-1/2 px-4"
+        >
+          <div className="mx-auto max-w-4xl grid grid-cols-3 gap-3 md:gap-6">
+            <div className="rounded-lg border border-white/20 bg-black/35 px-3 py-4 md:px-5 md:py-6 text-center">
+              <p className="text-2xl md:text-4xl text-[#00FF41] tracking-wider">{profileData.hero.yearsExperience}</p>
+              <p className="mt-2 text-[10px] md:text-xs text-white/70 tracking-[0.16em] uppercase">Years</p>
+            </div>
+            <div className="rounded-lg border border-white/20 bg-black/35 px-3 py-4 md:px-5 md:py-6 text-center">
+              <p className="text-2xl md:text-4xl text-[#00FF41] tracking-wider">{profileData.hero.projectsCompleted}</p>
+              <p className="mt-2 text-[10px] md:text-xs text-white/70 tracking-[0.16em] uppercase">Projects</p>
+            </div>
+            <div className="rounded-lg border border-white/20 bg-black/35 px-3 py-4 md:px-5 md:py-6 text-center">
+              <p className="text-2xl md:text-4xl text-[#00FF41] tracking-wider">{profileData.hero.clientsServed}</p>
+              <p className="mt-2 text-[10px] md:text-xs text-white/70 tracking-[0.16em] uppercase">Clients</p>
+            </div>
+          </div>
         </motion.div>
 
         {/* Line 2 */}
         <motion.div
           style={{ opacity: opacity2, x: x2, filter: filter2 }}
-          className="absolute right-8 md:right-24 top-1/3 max-w-2xl text-right"
+          className="absolute right-8 md:right-24 top-[36%] max-w-2xl text-right"
         >
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-normal tracking-[0.1em] text-[#e0e0e0] uppercase leading-tight drop-shadow-lg">
-            Built solutions for 50+ clients across continents.
+            Proof over promises.
           </h2>
         </motion.div>
 
         {/* Line 3 */}
         <motion.div
           style={{ opacity: opacity3, scale: scale3, filter: filter3, textShadow: glow3 }}
-          className="absolute inset-x-0 top-[45%] -translate-y-1/2 text-center px-4"
+          className="absolute inset-x-0 top-[44%] -translate-y-1/2 text-center px-4"
         >
           <h3 className="text-5xl md:text-6xl lg:text-7xl font-normal tracking-[0.15em] text-white uppercase origin-center drop-shadow-2xl">
-            Now architecting enterprise-scale platforms.
+            Now architecting secure, scalable platforms.
           </h3>
         </motion.div>
 
